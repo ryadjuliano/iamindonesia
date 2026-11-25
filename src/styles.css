@@ -395,12 +395,32 @@ summary:focus-visible,
   color: var(--error);
 }
 
-.hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+.field input:disabled {
+  background: var(--paper);
+  color: var(--muted);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-progress {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
 }
 
 .form-card .btn-block {
@@ -410,6 +430,7 @@ summary:focus-visible,
 
 .form-alert {
   margin-top: 14px;
+  line-height: 1.5;
   padding: 12px 14px;
   font-size: 14px;
   color: var(--error);
@@ -912,5 +933,8 @@ summary:focus-visible,
   }
   * {
     transition: none !important;
+  }
+  .spinner {
+    animation-duration: 2s;
   }
 }
