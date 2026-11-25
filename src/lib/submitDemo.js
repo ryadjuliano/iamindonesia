@@ -14,7 +14,7 @@ const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "ut
 export class SubmitError extends Error {
   constructor(kind, message) {
     super(message);
-    this.kind = kind; // "activation" | "timeout" | "network" | "rejected"
+    this.kind = kind; // "timeout" | "network"
   }
 }
 
@@ -50,14 +50,20 @@ export async function submitDemoRequest({ name, business, phone, email }) {
     _captcha: "false",
   };
 
+  // Sent as a plain form post in "no-cors" mode. FormSubmit delivers the email but its reply is not
+  // always readable from the browser (CORS), which made successful sends look like failures.
+  // In this mode the promise resolves once the server has received the request and only rejects
+  // when the request never got there (offline, DNS, blocked), which is exactly what we need to know.
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    throw new SubmitError("network", "offline");
+  }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  let res;
   try {
-    res = await fetch(ENDPOINT, {
+    await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(body),
+      mode: "no-cors",
+      body: new URLSearchParams(body),
       signal: controller.signal,
     });
   } catch (err) {
@@ -66,13 +72,4 @@ export async function submitDemoRequest({ name, business, phone, email }) {
   } finally {
     clearTimeout(timer);
   }
-
-  const data = await res.json().catch(() => ({}));
-  const ok = res.ok && data.success !== false && data.success !== "false";
-  if (!ok) {
-    console.error("[demo form] rejected", res.status, data);
-    const message = String(data.message || `HTTP ${res.status}`);
-    throw new SubmitError(/activat/i.test(message) ? "activation" : "rejected", message);
-  }
-  return data;
 }

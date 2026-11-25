@@ -20,11 +20,8 @@ function validate(v) {
 }
 
 const ERROR_TEXT = {
-  activation:
-    "Formulir belum aktif, jadi data belum terkirim. Pemilik situs perlu klik tombol \"Activate Form\" di email dari FormSubmit.",
-  timeout: "Server terlalu lama merespons. Data belum terkirim, silakan coba lagi.",
+  timeout: "Server terlalu lama merespons. Silakan coba lagi.",
   network: "Tidak bisa terhubung ke server. Periksa koneksi internet, lalu coba lagi.",
-  rejected: "Data belum terkirim karena ada gangguan di server. Silakan coba lagi.",
 };
 
 export default function DemoForm() {
@@ -68,7 +65,7 @@ export default function DemoForm() {
       trackLead();
       setStatus("sent");
     } catch (err) {
-      setErrorKind(err.kind || "rejected");
+      setErrorKind(err.kind || "network");
       setStatus("error");
     }
   }
@@ -145,7 +142,7 @@ export default function DemoForm() {
 
       {status === "error" && (
         <div className="form-alert" role="alert" tabIndex={-1} ref={resultRef}>
-          <strong>Belum terkirim.</strong> {ERROR_TEXT[errorKind] || ERROR_TEXT.rejected}
+          <strong>Belum terkirim.</strong> {ERROR_TEXT[errorKind] || ERROR_TEXT.network}
           <br />
           Atau kirim data Anda langsung ke{" "}
           <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Permintaan demo COBA")}`}>{CONTACT_EMAIL}</a>.

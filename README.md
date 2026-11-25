@@ -17,6 +17,10 @@ npm run build     # hasil statis di dist/, bisa di-deploy ke Vercel / Netlify / 
 Form mengirim nama lengkap, nama bisnis, no. WhatsApp/telepon, dan email ke
 **industrianakmudaindonesia@gmail.com** lewat [FormSubmit](https://formsubmit.co) (gratis, tanpa akun).
 
+Form dikirim sebagai form post biasa (`no-cors`), karena balasan FormSubmit kadang diblokir browser (CORS)
+walaupun emailnya terkirim. Akibatnya halaman tidak bisa membaca balasan server: "terkirim" artinya data sudah
+sampai ke FormSubmit, dan "belum terkirim" hanya muncul kalau koneksinya gagal.
+
 1. **Aktivasi sekali:** setelah situs online, kirim satu form percobaan. FormSubmit mengirim email
    "Activate Form" ke inbox di atas. Klik tombol aktivasinya. Sebelum diaktifkan, isian form belum diteruskan.
 2. Setelah aktif, setiap isian masuk sebagai email dengan subjek
