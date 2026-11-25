@@ -137,7 +137,7 @@ function Hero() {
     <section className="hero" id="top">
       <div className="container hero-grid">
         <div className="hero-copy">
-          <p className="kicker">COBA · Creative of Business Automation, dari IMUDA</p>
+          <p className="kicker">COBA · Cross-platform Bot Assistant, dari IMUDA</p>
           <h1>
             Customer chat jam 11 malam? <span className="mark">COBA yang balas.</span>
           </h1>
@@ -163,10 +163,10 @@ function Hero() {
 }
 
 const ACRONYM = [
-  ["C", "Creative", "Balasan chat, pesan promo, dan konten iklan disusun dengan bantuan AI."],
-  ["O", "of", "Satu platform untuk semua: chat, marketing, dan laporan."],
-  ["B", "Business", "Dibuat untuk bisnis nyata: gym, cafe, ISP, dan retail."],
-  ["A", "Automation", "Balas chat, kirim pengingat, dan susun laporan berjalan sendiri."],
+  ["C", "Cross", "Satu asisten di banyak kanal: WhatsApp untuk customer, Telegram untuk tim, dashboard di laptop dan HP."],
+  ["O", <>platf<u>o</u>rm</>, "Terhubung ke sistem bisnis Anda lewat API dan ke Meta Ads, jadi data tidak tercecer."],
+  ["B", "Bot", "Membalas chat customer 24 jam dari Knowledge Base bisnis Anda sendiri."],
+  ["A", "Assistant", "Bukan cuma bot: broadcast, automation, loyalty, dan laporan harian untuk tim Anda."],
 ];
 
 function Acronym() {
@@ -186,7 +186,7 @@ function Acronym() {
           ))}
         </dl>
         <p className="acronym-note">
-          <strong>Creative of Business Automation.</strong> Dan namanya juga ajakan: coba dulu lewat
+          <strong>Cross-platform Bot Assistant.</strong> Dan namanya juga ajakan: coba dulu lewat
           demo, baru putuskan.
         </p>
       </div>

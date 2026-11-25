@@ -1,4 +1,4 @@
-# IMUDA · Landing page COBA (Creative of Business Automation)
+# IMUDA · Landing page COBA (Cross-platform Bot Assistant)
 
 Landing page + form permintaan demo COBA, dipakai untuk iklan Instagram.
 React 18 + Vite, tanpa backend. Warna mengikuti logo IMUDA (navy `#22255A`, biru `#4A9CDC`),

@@ -502,6 +502,12 @@ summary:focus-visible,
   color: var(--navy);
 }
 
+.acronym-word u {
+  text-decoration: none;
+  color: var(--blue-ink);
+  border-bottom: 3px solid var(--blue);
+}
+
 .acronym-grid dd {
   color: var(--muted);
   font-size: 15px;
