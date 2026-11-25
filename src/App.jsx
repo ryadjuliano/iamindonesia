@@ -2,79 +2,53 @@ import React, { useEffect, useState } from "react";
 import DemoForm from "./components/DemoForm.jsx";
 import Icon from "./components/Icon.jsx";
 
-const FEATURES = [
+const FEATURE_GROUPS = [
   {
-    icon: "bot",
-    title: "AI balas chat WhatsApp 24 jam",
-    text: "AI menjawab pertanyaan customer dari Knowledge Base bisnis Anda: harga, jam buka, promo. Pertanyaan sulit atau komplain langsung diteruskan ke tim.",
+    title: "Membalas",
+    text: "Chat masuk tidak lagi menunggu admin online.",
+    items: [
+      ["AI auto-reply WhatsApp", "Menjawab harga, jam buka, dan promo dari Knowledge Base bisnis Anda. Komplain atau pertanyaan sulit diteruskan ke tim."],
+      ["Inbox bersama", "Semua chat di satu dashboard. Tim bisa ambil alih dari AI kapan saja, lalu serahkan lagi."],
+    ],
   },
   {
-    icon: "inbox",
-    title: "Inbox bersama untuk tim CS",
-    text: "Semua chat masuk ke satu dashboard. Tim bisa ambil alih chat dari AI kapan saja, lalu serahkan lagi setelah selesai.",
+    title: "Menjual lagi",
+    text: "Customer lama datang lagi tanpa Anda kirim pesan satu per satu.",
+    items: [
+      ["Broadcast", "Kirim promo ke semua customer, per tag, atau yang lama tidak aktif. Dikirim bertahap, ada laporan terkirim, dibaca, dan dibalas."],
+      ["Automation", "Pesan otomatis untuk lead baru, ulang tahun, membership hampir habis, dan member yang lama tidak datang."],
+      ["Loyalty", "Poin, kartu stempel, dan voucher. Saldo poin bisa langsung disisipkan di pesan."],
+      ["Meta Ads", "Pantau campaign Facebook dan Instagram, dan buat konten iklan dengan bantuan AI."],
+    ],
   },
   {
-    icon: "megaphone",
-    title: "Broadcast yang aman",
-    text: "Kirim promo ke semua customer, per tag, atau yang lama tidak aktif. Dikirim bertahap per nomor, lengkap dengan laporan terkirim, dibaca, dan dibalas.",
-  },
-  {
-    icon: "flow",
-    title: "Automation marketing",
-    text: "Pesan otomatis untuk lead baru, ucapan ulang tahun, membership hampir habis, atau member yang lama tidak datang.",
-  },
-  {
-    icon: "gift",
-    title: "Loyalty: poin, stempel, voucher",
-    text: "Customer kumpulkan poin dari transaksi dan tukar dengan hadiah. Saldo poin bisa disisipkan langsung di pesan WhatsApp.",
-  },
-  {
-    icon: "chart",
-    title: "Bot laporan lewat WhatsApp",
-    text: "Owner cukup ketik \"laporan hari ini\" ke nomor toko untuk melihat omzet, cek member, dan membership yang akan habis.",
-  },
-  {
-    icon: "agents",
-    title: "AI Agents & Telegram",
-    text: "Agent AI menyusun laporan harian dan rangkuman chat, lalu mengirimnya ke grup Telegram. Tanya data langsung dengan /tanya.",
-  },
-  {
-    icon: "ads",
-    title: "Meta Ads",
-    text: "Pantau campaign Facebook dan Instagram, dan buat konten iklan dengan bantuan AI dari dashboard yang sama.",
+    title: "Memantau",
+    text: "Angka bisnis sampai ke HP Anda tanpa buka laptop.",
+    items: [
+      ["Bot laporan WhatsApp", "Ketik \"laporan hari ini\" ke nomor toko: omzet, cek member, dan membership yang akan habis."],
+      ["AI Agents + Telegram", "Laporan harian dan rangkuman chat dikirim ke grup Telegram. Tanya data dengan /tanya."],
+    ],
   },
 ];
 
 const INDUSTRIES = [
-  { icon: "dumbbell", title: "Gym & fitness", text: "Cek status membership otomatis, pengingat perpanjangan, dan sapaan untuk member yang lama tidak datang." },
-  { icon: "cup", title: "Cafe & resto", text: "Jawab pertanyaan menu dan jam buka, broadcast promo, dan program loyalty untuk pelanggan tetap." },
-  { icon: "wifi", title: "Internet / ISP", text: "Tangani pertanyaan pelanggan di WhatsApp dan kirim pengingat lewat broadcast dan automation." },
-  { icon: "store", title: "Retail", text: "Satu inbox untuk semua chat penjualan, broadcast produk baru, dan poin untuk pelanggan setia." },
+  ["Gym & fitness", "Cek status membership otomatis, pengingat perpanjangan, sapaan untuk member yang lama tidak datang."],
+  ["Cafe & resto", "Jawab pertanyaan menu dan jam buka, broadcast promo, loyalty untuk pelanggan tetap."],
+  ["Internet / ISP", "Tangani pertanyaan pelanggan di WhatsApp, kirim pengingat lewat automation."],
+  ["Retail", "Satu inbox untuk chat penjualan, broadcast produk baru, poin untuk pelanggan setia."],
 ];
 
 const STEPS = [
-  { title: "Isi form demo", text: "Cukup nama, bisnis, nomor WhatsApp, dan email." },
-  { title: "Kami hubungi Anda", text: "Tim IMUDA menghubungi lewat WhatsApp atau email untuk atur jadwal." },
-  { title: "Lihat Omni bekerja", text: "Kami tunjukkan cara pakai Omni sesuai alur bisnis Anda." },
+  ["Isi form", "Nama, bisnis, nomor WhatsApp, dan email. Satu menit selesai."],
+  ["Kami hubungi", "Tim IMUDA menghubungi lewat WhatsApp atau email untuk atur jadwal."],
+  ["Demo", "Kami tunjukkan cara pakai Omni sesuai alur bisnis Anda."],
 ];
 
 const FAQS = [
-  {
-    q: "Apakah perlu ganti nomor WhatsApp?",
-    a: "Tidak. Nomor WhatsApp bisnis yang sudah ada dihubungkan ke Omni dengan scan QR, sama seperti WhatsApp Web.",
-  },
-  {
-    q: "Bagaimana kalau AI tidak tahu jawabannya?",
-    a: "AI hanya menjawab dari informasi yang Anda isi di Knowledge Base. Kalau jawabannya tidak ada, atau customer minta bicara dengan staf, chat diteruskan ke tim Anda.",
-  },
-  {
-    q: "Bisa terhubung dengan sistem yang sudah saya pakai?",
-    a: "Omni bisa membaca data dari sistem bisnis Anda lewat API, misalnya data member dan check-in gym. Detailnya kita bahas saat demo.",
-  },
-  {
-    q: "Apakah tim saya bisa pakai bersama?",
-    a: "Bisa. Ada peran owner, admin, marketing, dan agent/CS, masing-masing dengan akses menu sendiri. Dashboard juga nyaman dipakai dari HP.",
-  },
+  ["Apakah perlu ganti nomor WhatsApp?", "Tidak. Nomor WhatsApp bisnis yang sudah ada dihubungkan ke Omni dengan scan QR, sama seperti WhatsApp Web."],
+  ["Bagaimana kalau AI tidak tahu jawabannya?", "AI hanya menjawab dari informasi yang Anda isi di Knowledge Base. Kalau jawabannya tidak ada, atau customer minta bicara dengan staf, chat diteruskan ke tim Anda."],
+  ["Bisa terhubung dengan sistem yang sudah saya pakai?", "Omni bisa membaca data dari sistem bisnis Anda lewat API, misalnya data member dan check-in gym. Detailnya kita bahas saat demo."],
+  ["Apakah tim saya bisa pakai bersama?", "Bisa. Ada peran owner, admin, marketing, dan agent/CS dengan akses menu masing-masing. Dashboard juga nyaman dipakai dari HP."],
 ];
 
 function scrollToForm(e) {
@@ -162,13 +136,13 @@ function Hero() {
     <section className="hero" id="top">
       <div className="container hero-grid">
         <div className="hero-copy">
-          <span className="eyebrow">Omni Automation by IMUDA</span>
+          <p className="kicker">Omni Automation, dari IMUDA</p>
           <h1>
-            Chat WhatsApp customer dibalas AI, <em>24 jam</em>, tanpa tambah admin.
+            Customer chat jam 11 malam? <span className="mark">Omni yang balas.</span>
           </h1>
           <p className="lead">
-            Omni menggabungkan AI auto-reply, inbox tim, broadcast, automation, dan loyalty dalam
-            satu dashboard, terhubung ke nomor WhatsApp bisnis Anda.
+            AI yang menjawab WhatsApp bisnis Anda dari data Anda sendiri, plus inbox tim, broadcast,
+            dan automation di satu dashboard.
           </p>
         </div>
         <div className="hero-form" id="demo">
@@ -176,11 +150,9 @@ function Hero() {
         </div>
         <div className="hero-extra">
           <ul className="hero-points">
-            {["Pakai nomor WhatsApp yang sudah ada", "AI menjawab dari data bisnis Anda", "Tim bisa ambil alih chat kapan saja"].map((t) => (
-              <li key={t}>
-                <Icon name="check" size={18} /> {t}
-              </li>
-            ))}
+            <li>Pakai nomor WhatsApp yang sudah ada</li>
+            <li>AI hanya menjawab dari data bisnis Anda</li>
+            <li>Tim bisa ambil alih chat kapan saja</li>
           </ul>
           <ChatMock />
         </div>
@@ -193,22 +165,23 @@ function Features() {
   return (
     <section className="section" id="fitur">
       <div className="container">
-        <div className="section-head">
-          <span className="eyebrow">Fitur Omni</span>
-          <h2>Semua urusan chat dan marketing, di satu tempat</h2>
-          <p>Dari membalas pertanyaan pertama sampai membuat customer datang lagi.</p>
-        </div>
-        <div className="feature-grid">
-          {FEATURES.map((f) => (
-            <article className="feature" key={f.title}>
-              <div className="feature-icon">
-                <Icon name={f.icon} />
-              </div>
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
-            </article>
-          ))}
-        </div>
+        <h2 className="section-title">Apa yang dikerjakan Omni</h2>
+        {FEATURE_GROUPS.map((g) => (
+          <div className="group" key={g.title}>
+            <div className="group-head">
+              <h3>{g.title}</h3>
+              <p>{g.text}</p>
+            </div>
+            <dl className="group-items">
+              {g.items.map(([title, text]) => (
+                <div className="item" key={title}>
+                  <dt>{title}</dt>
+                  <dd>{text}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -216,19 +189,15 @@ function Features() {
 
 function Industries() {
   return (
-    <section className="section section-tint" id="industri">
+    <section className="section section-alt" id="industri">
       <div className="container">
-        <div className="section-head">
-          <span className="eyebrow">Untuk siapa</span>
-          <h2>Dibuat untuk bisnis yang ramai chat</h2>
-        </div>
-        <div className="industry-grid">
-          {INDUSTRIES.map((i) => (
-            <article className="industry" key={i.title}>
-              <Icon name={i.icon} size={28} />
-              <h3>{i.title}</h3>
-              <p>{i.text}</p>
-            </article>
+        <h2 className="section-title">Cocok untuk bisnis yang ramai chat</h2>
+        <div className="industries">
+          {INDUSTRIES.map(([title, text]) => (
+            <div className="industry" key={title}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -240,16 +209,13 @@ function Steps() {
   return (
     <section className="section" id="cara">
       <div className="container">
-        <div className="section-head">
-          <span className="eyebrow">Cara demo</span>
-          <h2>Tiga langkah untuk melihat Omni</h2>
-        </div>
+        <h2 className="section-title">Cara dapat demo</h2>
         <ol className="steps">
-          {STEPS.map((s, i) => (
-            <li key={s.title}>
-              <span className="step-num">{i + 1}</span>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
+          {STEPS.map(([title, text], i) => (
+            <li key={title}>
+              <span className="step-num">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
             </li>
           ))}
         </ol>
@@ -260,20 +226,17 @@ function Steps() {
 
 function Faq() {
   return (
-    <section className="section section-tint" id="faq">
-      <div className="container narrow">
-        <div className="section-head">
-          <span className="eyebrow">FAQ</span>
-          <h2>Pertanyaan yang sering ditanyakan</h2>
-        </div>
+    <section className="section section-alt" id="faq">
+      <div className="container faq-grid">
+        <h2 className="section-title">Pertanyaan umum</h2>
         <div className="faq">
-          {FAQS.map((f) => (
-            <details key={f.q}>
+          {FAQS.map(([q, a]) => (
+            <details key={q}>
               <summary>
-                {f.q}
-                <Icon name="chevron" size={20} />
+                {q}
+                <span className="faq-sign" aria-hidden="true" />
               </summary>
-              <p>{f.a}</p>
+              <p>{a}</p>
             </details>
           ))}
         </div>
@@ -286,9 +249,12 @@ function FinalCta() {
   return (
     <section className="cta">
       <div className="container cta-inner">
-        <h2>Siap melihat Omni membalas chat customer Anda?</h2>
+        <div>
+          <h2>Lihat Omni membalas chat customer Anda.</h2>
+          <p>Isi form, kami atur jadwalnya.</p>
+        </div>
         <a href="#demo" className="btn btn-light" onClick={scrollToForm}>
-          Jadwalkan demo sekarang
+          Jadwalkan demo
         </a>
       </div>
     </section>
@@ -299,16 +265,9 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-inner">
-        <img src="/logo.png" alt="IMUDA" width="96" height="73" />
-        <div>
-          <p>
-            <strong>IMUDA</strong> · Iam Indonesia
-          </p>
-          <p>
-            <a href="mailto:industrianakmudaindonesia@gmail.com">industrianakmudaindonesia@gmail.com</a>
-          </p>
-          <p className="muted">© {new Date().getFullYear()} IMUDA. Hak cipta dilindungi.</p>
-        </div>
+        <Brand />
+        <a href="mailto:industrianakmudaindonesia@gmail.com">industrianakmudaindonesia@gmail.com</a>
+        <p className="muted">© {new Date().getFullYear()} IMUDA · Iam Indonesia</p>
       </div>
     </footer>
   );

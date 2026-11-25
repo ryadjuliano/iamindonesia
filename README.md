@@ -2,7 +2,7 @@
 
 Landing page + form permintaan demo Omni Automation, dipakai untuk iklan Instagram.
 React 18 + Vite, tanpa backend. Warna mengikuti logo IMUDA (navy `#22255A`, biru `#4A9CDC`),
-font Poppins (SIL OFL).
+font Bricolage Grotesque (judul) dan Plus Jakarta Sans (teks), keduanya SIL OFL.
 
 ## Menjalankan
 
