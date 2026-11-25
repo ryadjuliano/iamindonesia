@@ -34,7 +34,7 @@ export async function submitDemoRequest({ name, business, phone, email }) {
     Sumber: source,
     ...campaign,
     "Waktu kirim": new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB",
-    _subject: `Permintaan demo Omni: ${business} (${name})`,
+    _subject: `Permintaan demo COBA: ${business} (${name})`,
     _replyto: email,
     _template: "table",
     _captcha: "false",

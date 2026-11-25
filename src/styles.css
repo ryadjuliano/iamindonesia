@@ -460,6 +460,59 @@ summary:focus-visible,
   margin-bottom: 48px;
 }
 
+/* Acronym: C-O-B-A */
+.acronym-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--navy);
+}
+
+.acronym-grid > div {
+  padding: 24px 24px 0 0;
+}
+
+.acronym-grid > div + div {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+.acronym-grid dt {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.acronym-letter {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 0.9;
+  color: var(--navy);
+}
+
+.acronym-grid > div:nth-child(even) .acronym-letter {
+  color: var(--blue);
+}
+
+.acronym-word {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--navy);
+}
+
+.acronym-grid dd {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.acronym-note {
+  margin-top: 40px;
+  font-size: 18px;
+  max-width: 44em;
+}
+
 /* Feature groups */
 .group {
   display: grid;
@@ -676,8 +729,23 @@ summary:focus-visible,
     gap: 20px;
   }
 
-  .industries {
+  .industries,
+  .acronym-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .acronym-grid > div:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .acronym-grid > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+    margin-top: 24px;
+  }
+
+  .acronym-letter {
+    font-size: 64px;
   }
 
   .industry:nth-child(3) {
@@ -691,6 +759,12 @@ summary:focus-visible,
 }
 
 /* Mobile: headline, then form, then proof — Instagram visitors see the form right away. */
+@media (max-width: 1100px) and (min-width: 861px) {
+  .nav-links {
+    gap: 18px;
+  }
+}
+
 @media (max-width: 860px) {
   .nav-inner {
     height: 58px;

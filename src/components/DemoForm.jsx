@@ -90,7 +90,7 @@ export default function DemoForm() {
 
   return (
     <form className="form-card" onSubmit={onSubmit} noValidate>
-      <h3>Jadwalkan demo Omni</h3>
+      <h3>Jadwalkan demo COBA</h3>
       <p className="form-sub">Isi data di bawah, tim kami akan menghubungi Anda untuk atur jadwal.</p>
 
       {field("name", "Nama lengkap", { autoComplete: "name", placeholder: "Nama Anda" })}

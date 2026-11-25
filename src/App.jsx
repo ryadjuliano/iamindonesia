@@ -41,13 +41,13 @@ const INDUSTRIES = [
 const STEPS = [
   ["Isi form", "Nama, bisnis, nomor WhatsApp, dan email. Satu menit selesai."],
   ["Kami hubungi", "Tim IMUDA menghubungi lewat WhatsApp atau email untuk atur jadwal."],
-  ["Demo", "Kami tunjukkan cara pakai Omni sesuai alur bisnis Anda."],
+  ["Demo", "Kami tunjukkan cara pakai COBA sesuai alur bisnis Anda."],
 ];
 
 const FAQS = [
-  ["Apakah perlu ganti nomor WhatsApp?", "Tidak. Nomor WhatsApp bisnis yang sudah ada dihubungkan ke Omni dengan scan QR, sama seperti WhatsApp Web."],
+  ["Apakah perlu ganti nomor WhatsApp?", "Tidak. Nomor WhatsApp bisnis yang sudah ada dihubungkan ke COBA dengan scan QR, sama seperti WhatsApp Web."],
   ["Bagaimana kalau AI tidak tahu jawabannya?", "AI hanya menjawab dari informasi yang Anda isi di Knowledge Base. Kalau jawabannya tidak ada, atau customer minta bicara dengan staf, chat diteruskan ke tim Anda."],
-  ["Bisa terhubung dengan sistem yang sudah saya pakai?", "Omni bisa membaca data dari sistem bisnis Anda lewat API, misalnya data member dan check-in gym. Detailnya kita bahas saat demo."],
+  ["Bisa terhubung dengan sistem yang sudah saya pakai?", "COBA bisa membaca data dari sistem bisnis Anda lewat API, misalnya data member dan check-in gym. Detailnya kita bahas saat demo."],
   ["Apakah tim saya bisa pakai bersama?", "Bisa. Ada peran owner, admin, marketing, dan agent/CS dengan akses menu masing-masing. Dashboard juga nyaman dipakai dari HP."],
 ];
 
@@ -70,6 +70,7 @@ function Brand() {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const links = [
+    ["#nama", "Tentang COBA"],
     ["#fitur", "Fitur"],
     ["#industri", "Untuk siapa"],
     ["#cara", "Cara demo"],
@@ -104,7 +105,7 @@ function Navbar() {
 
 function ChatMock() {
   return (
-    <div className="chat-mock" aria-label="Contoh percakapan WhatsApp yang dijawab AI Omni">
+    <div className="chat-mock" aria-label="Contoh percakapan WhatsApp yang dijawab AI COBA">
       <div className="chat-head">
         <img src="/logo-mark.png" alt="" width="32" height="32" />
         <div>
@@ -136,9 +137,9 @@ function Hero() {
     <section className="hero" id="top">
       <div className="container hero-grid">
         <div className="hero-copy">
-          <p className="kicker">Omni Automation, dari IMUDA</p>
+          <p className="kicker">COBA · Creative of Business Automation, dari IMUDA</p>
           <h1>
-            Customer chat jam 11 malam? <span className="mark">Omni yang balas.</span>
+            Customer chat jam 11 malam? <span className="mark">COBA yang balas.</span>
           </h1>
           <p className="lead">
             AI yang menjawab WhatsApp bisnis Anda dari data Anda sendiri, plus inbox tim, broadcast,
@@ -161,11 +162,43 @@ function Hero() {
   );
 }
 
+const ACRONYM = [
+  ["C", "Creative", "Balasan chat, pesan promo, dan konten iklan disusun dengan bantuan AI."],
+  ["O", "of", "Satu platform untuk semua: chat, marketing, dan laporan."],
+  ["B", "Business", "Dibuat untuk bisnis nyata: gym, cafe, ISP, dan retail."],
+  ["A", "Automation", "Balas chat, kirim pengingat, dan susun laporan berjalan sendiri."],
+];
+
+function Acronym() {
+  return (
+    <section className="section acronym" id="nama">
+      <div className="container">
+        <h2 className="section-title">Kenapa namanya COBA?</h2>
+        <dl className="acronym-grid">
+          {ACRONYM.map(([letter, word, text]) => (
+            <div key={letter}>
+              <dt>
+                <span className="acronym-letter">{letter}</span>
+                <span className="acronym-word">{word}</span>
+              </dt>
+              <dd>{text}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="acronym-note">
+          <strong>Creative of Business Automation.</strong> Dan namanya juga ajakan: coba dulu lewat
+          demo, baru putuskan.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function Features() {
   return (
     <section className="section" id="fitur">
       <div className="container">
-        <h2 className="section-title">Apa yang dikerjakan Omni</h2>
+        <h2 className="section-title">Apa yang dikerjakan COBA</h2>
         {FEATURE_GROUPS.map((g) => (
           <div className="group" key={g.title}>
             <div className="group-head">
@@ -250,7 +283,7 @@ function FinalCta() {
     <section className="cta">
       <div className="container cta-inner">
         <div>
-          <h2>Lihat Omni membalas chat customer Anda.</h2>
+          <h2>Coba dulu COBA untuk bisnis Anda.</h2>
           <p>Isi form, kami atur jadwalnya.</p>
         </div>
         <a href="#demo" className="btn btn-light" onClick={scrollToForm}>
@@ -298,6 +331,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <Acronym />
         <Features />
         <Industries />
         <Steps />
