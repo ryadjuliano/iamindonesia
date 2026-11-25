@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# IMUDA · Landing page Omni Automation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Landing page + form permintaan demo Omni Automation, dipakai untuk iklan Instagram.
+React 18 + Vite, tanpa backend. Warna mengikuti logo IMUDA (navy `#22255A`, biru `#4A9CDC`),
+font Poppins (SIL OFL).
 
-## Available Scripts
+## Menjalankan
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # hasil statis di dist/, bisa di-deploy ke Vercel / Netlify / hosting statis apa pun
+```
 
-### `npm start`
+## Form demo → email
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Form mengirim nama lengkap, nama bisnis, no. WhatsApp/telepon, dan email ke
+**industrianakmudaindonesia@gmail.com** lewat [FormSubmit](https://formsubmit.co) (gratis, tanpa akun).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **Aktivasi sekali:** setelah situs online, kirim satu form percobaan. FormSubmit mengirim email
+   "Activate Form" ke inbox di atas. Klik tombol aktivasinya. Sebelum diaktifkan, isian form belum diteruskan.
+2. Setelah aktif, setiap isian masuk sebagai email dengan subjek
+   `Permintaan demo Omni: <bisnis> (<nama>)`. Tombol Reply langsung membalas ke email pengisi.
+3. Email juga mencantumkan **Sumber** (`utm_source` / `utm_campaign` dari link iklan), jadi kelihatan
+   lead mana yang datang dari Instagram.
+4. Opsional: FormSubmit mengirim alias acak setelah aktivasi. Isi sebagai `VITE_FORM_EMAIL` agar alamat
+   email asli tidak terlihat di source halaman.
 
-### `npm test`
+## Iklan Instagram
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Pakai link dengan UTM, misalnya:
+  `https://<domain>/?utm_source=instagram&utm_medium=paid&utm_campaign=demo_omni`
+- Di HP, form langsung tampil setelah judul. Tombol "Jadwalkan demo" menempel di bawah layar setelah form terlewati.
+- Meta Pixel (opsional): isi `VITE_META_PIXEL_ID` saat build. Halaman mengirim `PageView`, dan event `Lead`
+  setiap form berhasil terkirim, sehingga iklan bisa dioptimalkan untuk lead.
 
-### `npm run build`
+## Variabel lingkungan (opsional)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Variabel | Fungsi |
+| --- | --- |
+| `VITE_FORM_EMAIL` | Tujuan FormSubmit (email atau alias acak). Default: industrianakmudaindonesia@gmail.com |
+| `VITE_META_PIXEL_ID` | ID Meta Pixel untuk tracking iklan Instagram/Facebook |
