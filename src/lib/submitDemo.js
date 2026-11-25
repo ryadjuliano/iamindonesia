@@ -44,31 +44,52 @@ export async function submitDemoRequest({ name, business, phone, email }) {
     Sumber: source,
     ...campaign,
     "Waktu kirim": new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }) + " WIB",
+    "Daftar semua permintaan": `${window.location.origin}/list-form`,
     _subject: `Permintaan demo COBA: ${business} (${name})`,
     _replyto: email,
     _template: "table",
     _captcha: "false",
   };
 
-  // Sent as a plain form post in "no-cors" mode. FormSubmit delivers the email but its reply is not
-  // always readable from the browser (CORS), which made successful sends look like failures.
-  // In this mode the promise resolves once the server has received the request and only rejects
-  // when the request never got there (offline, DNS, blocked), which is exactly what we need to know.
   if (typeof navigator !== "undefined" && navigator.onLine === false) {
     throw new SubmitError("network", "offline");
   }
+
+  // Two deliveries in parallel; the request counts as received when either one succeeds:
+  // 1. /api/demo saves it to the lead list at /list-form (readable, same-origin reply).
+  // 2. FormSubmit emails it. Sent in "no-cors" mode because FormSubmit's reply is often blocked by
+  //    CORS even when the email goes out; the promise resolves once the request reached the server.
+  const [saved, emailed] = await Promise.allSettled([
+    withTimeout((signal) =>
+      fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, business, phone, email, campaign }),
+        signal,
+      }).then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        return data;
+      })
+    ),
+    withTimeout((signal) =>
+      fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: new URLSearchParams(body), signal })
+    ),
+  ]);
+
+  if (saved.status === "rejected") console.error("[demo form] saving to list failed", saved.reason);
+  if (emailed.status === "rejected") console.error("[demo form] email failed", emailed.reason);
+  if (saved.status === "rejected" && emailed.status === "rejected") {
+    const timedOut = [saved, emailed].every((r) => r.reason?.name === "AbortError");
+    throw new SubmitError(timedOut ? "timeout" : "network", String(saved.reason?.message));
+  }
+}
+
+async function withTimeout(run) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
-    await fetch(ENDPOINT, {
-      method: "POST",
-      mode: "no-cors",
-      body: new URLSearchParams(body),
-      signal: controller.signal,
-    });
-  } catch (err) {
-    console.error("[demo form] request failed", err);
-    throw new SubmitError(err.name === "AbortError" ? "timeout" : "network", err.message);
+    return await run(controller.signal);
   } finally {
     clearTimeout(timer);
   }

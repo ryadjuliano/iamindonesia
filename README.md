@@ -30,6 +30,34 @@ sampai ke FormSubmit, dan "belum terkirim" hanya muncul kalau koneksinya gagal.
 4. Opsional: FormSubmit mengirim alias acak setelah aktivasi. Isi sebagai `VITE_FORM_EMAIL` agar alamat
    email asli tidak terlihat di source halaman.
 
+## Daftar permintaan demo: /list-form
+
+Setiap isian form juga disimpan ke database dan tampil sebagai tabel di **`/list-form`**
+(contoh: `https://iamindonesia.site/list-form`), dilindungi password.
+
+- Filter per status (Baru, Dihubungi, Demo dijadwalkan, Selesai, Batal), pencarian, unduh CSV.
+- Tombol **Chat WhatsApp** membuka `wa.me` dengan pesan pembuka; status "Baru" otomatis jadi "Dihubungi".
+  Nomor telepon kantor (bukan HP) mendapat tombol **Telepon**.
+- Email notifikasi FormSubmit tetap dikirim dan berisi link ke halaman ini.
+
+Penyiapan di Vercel (sekali):
+
+1. **Storage → Create Database → Upstash for Redis** (paket gratis), lalu **Connect** ke project ini.
+   Vercel otomatis menambahkan `KV_REST_API_URL` dan `KV_REST_API_TOKEN`.
+2. **Settings → Environment Variables:** tambah `ADMIN_PASSWORD` (password untuk membuka `/list-form`).
+3. **Redeploy** supaya variabel baru terbaca.
+
+API (Vercel Functions di `api/`):
+
+| Endpoint | Fungsi |
+| --- | --- |
+| `POST /api/demo` | Simpan isian form (maks 5 per IP per 10 menit) |
+| `GET /api/leads` | Daftar permintaan, butuh header `x-admin-key` |
+| `PATCH /api/leads` | Ubah status `{ id, status }` |
+| `DELETE /api/leads?id=…` | Hapus (spam / data uji) |
+
+Form dianggap terkirim kalau salah satu berhasil: tersimpan ke database **atau** email terkirim.
+
 ## Iklan Instagram
 
 - Pakai link dengan UTM, misalnya:
@@ -44,3 +72,5 @@ sampai ke FormSubmit, dan "belum terkirim" hanya muncul kalau koneksinya gagal.
 | --- | --- |
 | `VITE_FORM_EMAIL` | Tujuan FormSubmit (email atau alias acak). Default: industrianakmudaindonesia@gmail.com |
 | `VITE_META_PIXEL_ID` | ID Meta Pixel untuk tracking iklan Instagram/Facebook |
+| `ADMIN_PASSWORD` | Wajib untuk `/list-form`. Password admin |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Diisi otomatis oleh integrasi Upstash Redis di Vercel |

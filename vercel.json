@@ -1,0 +1,12 @@
+{
+  "rewrites": [{ "source": "/list-form", "destination": "/list-form/index.html" }],
+  "headers": [
+    {
+      "source": "/list-form(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
