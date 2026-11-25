@@ -1,5 +1,6 @@
 {
-  "rewrites": [{ "source": "/list-form", "destination": "/list-form/index.html" }],
+  "cleanUrls": true,
+  "rewrites": [{ "source": "/list-form/", "destination": "/list-form.html" }],
   "headers": [
     {
       "source": "/list-form(.*)",

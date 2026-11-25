@@ -33,7 +33,7 @@ sampai ke FormSubmit, dan "belum terkirim" hanya muncul kalau koneksinya gagal.
 ## Daftar permintaan demo: /list-form
 
 Setiap isian form juga disimpan ke database dan tampil sebagai tabel di **`/list-form`**
-(contoh: `https://iamindonesia.site/list-form`), dilindungi password.
+(contoh: `https://iamindonesia.site/list-form`, file `list-form.html` dengan `cleanUrls` di `vercel.json`), dilindungi password.
 
 - Filter per status (Baru, Dihubungi, Demo dijadwalkan, Selesai, Batal), pencarian, unduh CSV.
 - Tombol **Chat WhatsApp** membuka `wa.me` dengan pesan pembuka; status "Baru" otomatis jadi "Dihubungi".
